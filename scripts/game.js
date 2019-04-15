@@ -1,5 +1,16 @@
-const canvas = document.querySelector('canvas')
-const context = canvas.getContext('2d')
+/* VARIABLES*/
+var canvas    = document.querySelector('canvas'),
+    context   = canvas.getContext('2d'),
+    width     = window.innerWidth,
+    height    = window.innerHeight,
+    game_over = false,
+    game_start = false,
+    wait_restart = false,
+    time_spend = 0,
+    asteroid_destroyed = 0,
+    score = 0;
+
+var score_munition_update;
 
 // Spaceship
 

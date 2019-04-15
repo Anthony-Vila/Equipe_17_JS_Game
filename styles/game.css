@@ -5,8 +5,7 @@
 }
 
 html,
-body
-{
+body{
     position: fixed;
     top: 0;
     left: 0;
@@ -14,11 +13,9 @@ body
     height: 100%;
 }
 
-canvas
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+canvas{
+    background-color :  #8153B7;
+    background : radial-gradient(ellipse at center, #242242 , #11182A);
+    margin: 0;
+    padding: 0;
 }
