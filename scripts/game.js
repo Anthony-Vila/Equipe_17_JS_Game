@@ -14,27 +14,23 @@ var score_munition_update;
 
 // Spaceship
 
-context.beginPath()      // Commencer un tracé
-
-context.moveTo(50, 50)   // Placer le tracé
-context.lineTo(200, 200) // Tracer une ligne
-context.lineTo(50, 200)  // Tracer autre une ligne
-
-context.fill()           // Faire apparaitre la forme dessinée
+context.fill()
 
 // Asteroïdes
 
 class Asteroid{
-  constructor(diameter){
-    this.diameter=diameter
+  constructor(posX, posY, radius){
+    this.posX=posX;
+    this.posY=posY;
+    this.radius=radius;
   }
-  display(){
+  draw(){
     context.beginPath();
-    context.fillStyle="#FF4422"
-    context.arc(80, 80, 70, 0, 2 * Math.PI);
+    context.fillStyle="#C6C7A2"
+    context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI);
     context.fill();
   }
 }
 
-let asteroid1 = new Asteroid(100)
- asteroid1.display()
+let asteroid1 = new Asteroid(50, 50, 20);
+asteroid1.draw()
