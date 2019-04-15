@@ -37,4 +37,4 @@ class Asteroid{
 }
 
 let asteroid1 = new Asteroid(100)
-asteroid1.display()
+ asteroid1.display()
