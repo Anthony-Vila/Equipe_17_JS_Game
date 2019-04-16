@@ -67,40 +67,46 @@ window.addEventListener('mousemove', (event) =>
     mouse.y = event.clientY
 })
 
-
-
-
-
-let asteroidtest=new Asteroid(20, 20, 30)
+// Création vaisseau
 let spaceship=new Spaceship(0,300,100)
+
+// Création astéroïdes
+let play= setInterval(
+    function(){
+    generateAsteroid()
+  },
+  1500
+)
+
+// Animation
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
-    // Mise à jour des coordonnées
-    asteroidtest.posY += 5
-    // Met à jour les coordonnées de la balle en appliquant un easing
-SposX += (mouse.x - SposX) * 0.1
-SposY += (mouse.y - SposY) * 0.1
+    // Astéroïdes se déplacent verticalement
+    for (let i = 0; i < asteroids.length; i++){
+      asteroids[i].posY += 5
+    }
+    // Met à jour les coordonnées de du vaiseau en appliquant un easing
+    SposX += (mouse.x - SposX) * 0.1
+    SposY += (mouse.y - SposY) * 0.1
     // Efface le canvas
     gradient.addColorStop(0, '#6b35ab')    // Couleur de départ
-    gradient.addColorStop(0.5, ' #322778') // Couleur de milieu
+    gradient.addColorStop(0.5, '#322778') // Couleur de milieu
     gradient.addColorStop(1, '#041444') // Couleur de arrivée
     context.fillStyle = gradient  // Le dégradé devient le style de remplissage
-    // context.fillStyle = '#041444'
-    context.fillRect(0, 0, canvas.width, canvas.height)
-    // Dessine l'asteroide
-    asteroidtest.draw()
+    context.fillRect(0, 0, canvas.width, canvas.height) // remplissage du canvas
+    // Dessine les asteroides
+    for (let i = 0; i < asteroids.length; i++) {
+      asteroids[i].draw()
+    }
     spaceship.draw()
+    //afficher score
+    context.font = '20px Arial'
+    context.fillText(score, 700, 50)
 }
 loop()
 
 
-// let play= setInterval(
-//     function(){
-//     generateAsteroid()
-//   },
-//   1000
-//   )
 
 
 /*FUNCTIONS*/
