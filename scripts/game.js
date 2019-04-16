@@ -2,73 +2,71 @@
 let canvas=document.querySelector('canvas'),
     context=canvas.getContext('2d'),
     score=0
-// Asteroid
-const tRadius=[20, 30, 40]
-let asteroids = new Array(5)
-let posX, posY, radius, indexRadius, SposX, SposY
-//Fond
+const aRadius=[20, 30, 40]
+let asteroids = new Array(5), aPosX, aPosY, radius, indexRadius, sPosX, sPosY
+//Fond dégradé
 const gradient = context.createRadialGradient(
     400, 200, 100,
     400, 300, 400,
     400, 300, 600,
 )
+//Souris
+let mouse = { x: 0, y: 0 }
 
 /*OBJETS*/
 //Spaceship
 class Spaceship{
-  constructor(SposX, SposY, life, munition, reload){
-    this.SposX=SposX
-    this.SposY=SposY
-    this.life=life
-    this.munition=munition
-    this.reload=reload
+  constructor(sPosX, sPosY){
+    this.sPosX=sPosX
+    this.sPosY=sPosY
+    this.life=0
+    this.munition=100
   }
   draw(){
     context.beginPath()
-    context.fillStyle="white"
-    context.moveTo(0,-20);
-    context.lineTo(16,10);
-    context.lineTo(-16,10);
-    context.closePath();
-    context.strokeStyle = "#FFFFFF";
-    context.lineWidth = 2;
-    context.lineJoin = 'round';
-    context.shadowColor = 'rgba(255,255,255,0.4)';
-    context.shadowBlur = 10;
-    context.shadowOffsetX = 0;
-    context.shadowOffsetY = 0;
-    context.fill()
+    context.moveTo(this.sPosX+30,this.sPosY) //en bas à droite
+    context.lineTo(this.sPosX-30, this.sPosY) // en bas à gauche
+    context.lineTo(this.sPosX,this.sPosY-60) // en haut
+    context.closePath()
+    context.fillStyle = '#fff'
+    context.strokeStyle = "#FFFFFF"
+    context.lineWidth = 2
+    context.lineJoin = 'round'
+    context.shadowColor = 'rgba(255,255,255,0.4)'
+    context.shadowBlur = 10
+    context.shadowOffsetX = 0
+    context.shadowOffsetY = 0
     context.stroke()
+    context.fill()
   }
 }
 
 // Asteroïdes
 class Asteroid{
-  constructor(posX, posY, radius){
-    this.posX=posX
-    this.posY=posY
+  constructor(aPosX, aPosY, radius){
+    this.aPosX=aPosX
+    this.aPosY=aPosY
     this.radius=radius
   }
   draw(){
     context.beginPath()
     context.fillStyle="#C6C7A2"
-    context.arc(this.posX, this.posY, this.radius, 0, 2 * Math.PI)
+    context.arc(this.aPosX, this.aPosY, this.radius, 0, 2 * Math.PI)
     context.fill()
   }
 }
 
 /* GAME */
-// Coordonnées de la souris
-const mouse = { x: 0, y: 0 }
-
-window.addEventListener('mousemove', (event) =>
-{
+// Récupération des coordonnées de la souris
+window.addEventListener(
+  'mousemove',
+   function(event){
     mouse.x = event.clientX
     mouse.y = event.clientY
 })
 
-// Création vaisseau
-let spaceship=new Spaceship(0,300,100)
+// Création du vaisseau spacial
+let spaceship=new Spaceship(0,0)
 
 // Création astéroïdes
 let play= setInterval(
@@ -82,13 +80,18 @@ let play= setInterval(
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
+    // Met à jour les coordonnées de du vaiseau en appliquant un easing
+    spaceship.sPosX += (mouse.x - spaceship.sPosX) * 0.1
+    spaceship.sPosY += (mouse.y - spaceship.sPosY) * 0.1
     // Astéroïdes se déplacent verticalement
     for (let i = 0; i < asteroids.length; i++){
-      asteroids[i].posY += 5
+      asteroids[i].aPosY += 5
     }
-    // Met à jour les coordonnées de du vaiseau en appliquant un easing
-    SposX += (mouse.x - SposX) * 0.1
-    SposY += (mouse.y - SposY) * 0.1
+      // Si une asteroide arrive sur le vaisseau, le score diminue
+    //   if (asteroids[i].posY-SposY==10 && asteroids[i].posX-SposX==10){
+    //     score--
+    //   }
+    // }
     // Efface le canvas
     gradient.addColorStop(0, '#6b35ab')    // Couleur de départ
     gradient.addColorStop(0.5, '#322778') // Couleur de milieu
@@ -99,8 +102,9 @@ const loop = () =>
     for (let i = 0; i < asteroids.length; i++) {
       asteroids[i].draw()
     }
+    // Dessine le vaisseau
     spaceship.draw()
-    //afficher score
+    //Affiche le score
     context.font = '20px Arial'
     context.fillText(score, 700, 50)
 }
@@ -118,20 +122,10 @@ loop()
 
 function generateAsteroid(){
   for (let i = 0; i < asteroids.length; i++){
-    posY=20
-    posX=Math.floor(Math.random()*800)
+    aPosY=20
+    aPosX=Math.floor(Math.random()*800)
     indexRadius=Math.floor(Math.random()*3)
-    radius=tRadius[indexRadius]
-    asteroids[i] = new Asteroid(posX, posY, radius)
+    radius=aRadius[indexRadius]
+    asteroids[i] = new Asteroid(aPosX, aPosY, radius)
   }
-}
-
-function generateSpaceship(){
-  for (let i = 0; i < asteroids.length; i++){
-    console.log(Spaceship);
-    SposY=50
-    SposX=80
-    Spaceship[i] = new Spaceship(SposX, SposY)
-    Spaceship[i].draw()
-}
 }
