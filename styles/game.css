@@ -16,6 +16,6 @@ body
 
 canvas{
     background-image: radial-gradient(circle, #6b35ab, #4d2f92, #322778, #1a1e5e, #041444);
-    width: 100%;
-    height: 100%;
+  /*  width: 100%;
+    height: 100%;*/
 }

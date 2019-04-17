@@ -4,6 +4,7 @@ let canvas=document.querySelector('canvas'),
     score=0
 const aRadius=[20, 30, 40]
 let asteroids = new Array(5), aPosX, aPosY, radius, indexRadius, sPosX, sPosY
+
 //Fond dégradé
 const gradient = context.createRadialGradient(
     400, 200, 100,
@@ -55,7 +56,7 @@ class Asteroid{
     context.fill()
   }
 }
-
+generateAsteroid()
 /* GAME */
 // Récupération des coordonnées de la souris
 window.addEventListener(
@@ -80,9 +81,12 @@ let play= setInterval(
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
+
+
     // Met à jour les coordonnées de du vaiseau en appliquant un easing
-    spaceship.sPosX += (mouse.x - spaceship.sPosX) * 0.1
-    spaceship.sPosY += (mouse.y - spaceship.sPosY) * 0.1
+    spaceship.sPosX += (mouse.x - spaceship.sPosX)
+    spaceship.sPosY += (mouse.y - spaceship.sPosY)
+    //console.log(spaceship.sPosY, mouse.y, spaceship.sPosY )
     // Astéroïdes se déplacent verticalement
     for (let i = 0; i < asteroids.length; i++){
       asteroids[i].aPosY += 5
