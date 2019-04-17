@@ -2,7 +2,7 @@
 let canvas=document.querySelector('canvas'),
     context=canvas.getContext('2d')
 const aRadius=[20, 30, 40]
-let aPosX, aPosY, radius, indexRadius, sPosX, sPosY
+let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY
 
 /*OBJETS*/
 // Game
@@ -14,6 +14,7 @@ let game = {
   ),
   score:0,
   asteroids:new Array(5),
+  shootings:[],
   generateBackground:function(){
     this.background.addColorStop(0, '#6b35ab')    // Couleur de départ
     this.background.addColorStop(0.5, '#322778') // Couleur de milieu
@@ -87,12 +88,44 @@ let mouse ={
   }
 }
 
+// shooting
+class Shooting{
+  constructor(shPosX, shPosY){
+    this.shPosX= shPosX,
+    this.shPosY= shPosY,
+    this.height=-100
+  }
+  static stockShootings(){
+    canvas.addEventListener(
+      'click',
+      function(){
+        this.shPosX=spaceship.sPosX
+        this.shPosY=spaceship.sPosY
+        game.shootings.push(new Shooting(this.shPosX, this.shPosY))
+      }
+    )
+  }
+  draw(){
+    context.beginPath()
+    context.moveTo(this.shPosX, this.shPosY-60)
+    context.lineTo(this.shPosX, this.shPosY-60 +this.height)
+    context.closePath()
+    context.lineWidth = 5
+    context.strokeStyle = 'red'
+    context.stroke()
+  }
+}
+
+
+
 /* GAME */
 // Asteroids creation
 Asteroid.generateAsteroid(game.asteroids.length)
+Shooting.stockShootings()
 let play= setInterval(
     function(){
     Asteroid.generateAsteroid(game.asteroids.length),
+    Shooting.stockShootings(),
     game.score +=10
   },
   1500
@@ -112,26 +145,24 @@ const loop = () =>
     for (let i = 0; i < game.asteroids.length; i++){
       game.asteroids[i].aPosY += 5
       // Si une asteroide arrive sur le vaisseau, le score diminue
-      if (game.asteroids[i].aPosY-spaceship.sPosY<=30 && game.asteroids[i].aPosX-spaceship.sPosX<=30){
+      if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=game.asteroids[i].radius && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=game.asteroids[i].radius){
         game.score--
       }
     }
     // Efface le canvas
     game.generateBackground()
+    // Dessine le vaisseau
+    spaceship.draw()
     // Dessine les asteroides
     for (let i = 0; i < game.asteroids.length; i++) {
       game.asteroids[i].draw()
     }
-    // Dessine le vaisseau
-    spaceship.draw()
+    // Dessine les tirs
+    for (let i = 0; i < game.shootings.length; i++) {
+      game.shootings[i].draw()
+    }
     //Affiche le score
     context.font = '20px Arial'
     context.fillText(game.score, 700, 50)
 }
 loop()
-
-
-
-
-/*FUNCTIONS*/
-// Spaceship
