@@ -4,6 +4,8 @@ let canvas=document.querySelector('canvas'),
 const aRadius=[20, 30, 40]
 let aPosX, aPosY, radius, indexRadius, sPosX, sPosY
 
+/*OBJETS*/
+// Game
 let game = {
   background:context.createRadialGradient(
       400, 200, 100,
@@ -21,20 +23,12 @@ let game = {
   }
 }
 
-// let asteroids=new Array(game.nbAsteroids)
-
-//Souris
-//let mouse = { x: 0, y: 0 }
-
-/*OBJETS*/
 //Spaceship
 let spaceship ={
-    
   sPosX: 0,
   sPosY: 0,
   hp : 100,
   munition : 100,
-  
   draw :function(){
     context.beginPath()
     context.moveTo(this.sPosX+30,this.sPosY) //en bas à droite
@@ -54,7 +48,7 @@ let spaceship ={
   }
 }
 
-// Asteroïdes
+// Asteroids
 class Asteroid{
   constructor(aPosX, aPosY, radius){
     this.aPosX=aPosX
@@ -67,10 +61,20 @@ class Asteroid{
     context.arc(this.aPosX, this.aPosY, this.radius, 0, 2 * Math.PI)
     context.fill()
   }
+  static generateAsteroid (number) {
+      for (let i = 0; i < number; i++){
+        aPosY=Math.floor(Math.random()*600)
+        aPosX=Math.floor(Math.random()*800)
+        indexRadius=Math.floor(Math.random()*3)
+        radius=aRadius[indexRadius]
+        game.asteroids[i] = new Asteroid(aPosX, aPosY, radius)
+      }
+  }
 }
 
+// Souris
 let mouse ={
-  x: 0, 
+  x: 0,
   y: 0 ,
 // Récupération des coordonnées de la souris
    mouseMouve : function(){
@@ -82,38 +86,35 @@ let mouse ={
     })
   }
 }
+
 /* GAME */
-
-
-// Création astéroïdes
-generateAsteroid()
+// Asteroids creation
+Asteroid.generateAsteroid(game.asteroids.length)
 let play= setInterval(
     function(){
-    generateAsteroid()
+    Asteroid.generateAsteroid(game.asteroids.length)
   },
   1500
 )
 
-// Animation
-
 mouse.mouseMouve()
 
+// Animation
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
-    // Met à jour les coordonnées de du vaiseau en appliquant un easing
+    // Met à jour les coordonnées de du vaisseau en appliquant un easing
     spaceship.sPosX += (mouse.x - spaceship.sPosX)
     spaceship.sPosY += (mouse.y - spaceship.sPosY)
     //console.log(spaceship.sPosY, mouse.y, spaceship.sPosY )
     // Astéroïdes se déplacent verticalement
     for (let i = 0; i < game.asteroids.length; i++){
       game.asteroids[i].aPosY += 5
-    }
       // Si une asteroide arrive sur le vaisseau, le score diminue
-    //   if (asteroids[i].posY-SposY==10 && asteroids[i].posX-SposX==10){
-    //     score--
-    //   }
-    // }
+      if (game.asteroids[i].aPosY-spaceship.sPosY<=30 && game.asteroids[i].aPosX-spaceship.sPosX<=30){
+        game.score--
+      }
+    }
     // Efface le canvas
     game.generateBackground()
     // Dessine les asteroides
@@ -133,16 +134,3 @@ loop()
 
 /*FUNCTIONS*/
 // Spaceship
-
-
-
-// Asteroïdes
-function generateAsteroid(){
-  for (let i = 0; i < game.asteroids.length; i++){
-    aPosY=Math.floor(Math.random()*600)
-    aPosX=Math.floor(Math.random()*800)
-    indexRadius=Math.floor(Math.random()*3)
-    radius=aRadius[indexRadius]
-    game.asteroids[i] = new Asteroid(aPosX, aPosY, radius)
-  }
-}
