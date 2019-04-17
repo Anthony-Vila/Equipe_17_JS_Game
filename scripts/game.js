@@ -92,9 +92,9 @@ let mouse ={
 Asteroid.generateAsteroid(game.asteroids.length)
 let play= setInterval(
     function(){
-    Asteroid.generateAsteroid(game.asteroids.length,
-    game.score +=50)
-    }
+    Asteroid.generateAsteroid(game.asteroids.length),
+    game.score +=10
+  },
   1500
 )
 
@@ -112,7 +112,7 @@ const loop = () =>
     for (let i = 0; i < game.asteroids.length; i++){
       game.asteroids[i].aPosY += 5
       // Si une asteroide arrive sur le vaisseau, le score diminue
-      if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=10 && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=10){
+      if (game.asteroids[i].aPosY-spaceship.sPosY<=30 && game.asteroids[i].aPosX-spaceship.sPosX<=30){
         game.score--
       }
     }
