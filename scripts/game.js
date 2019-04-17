@@ -92,8 +92,9 @@ let mouse ={
 Asteroid.generateAsteroid(game.asteroids.length)
 let play= setInterval(
     function(){
-    Asteroid.generateAsteroid(game.asteroids.length)
-  },
+    Asteroid.generateAsteroid(game.asteroids.length,
+    game.score +=50)
+    }
   1500
 )
 
