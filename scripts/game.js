@@ -24,18 +24,18 @@ let game = {
 // let asteroids=new Array(game.nbAsteroids)
 
 //Souris
-let mouse = { x: 0, y: 0 }
+//let mouse = { x: 0, y: 0 }
 
 /*OBJETS*/
 //Spaceship
-class Spaceship{
-  constructor(sPosX, sPosY){
-    this.sPosX=sPosX
-    this.sPosY=sPosY
-    this.life=0
-    this.munition=100
-  }
-  draw(){
+let spaceship ={
+    
+  sPosX: 0,
+  sPosY: 0,
+  hp : 100,
+  munition : 100,
+  
+  draw :function(){
     context.beginPath()
     context.moveTo(this.sPosX+30,this.sPosY) //en bas à droite
     context.lineTo(this.sPosX-30, this.sPosY) // en bas à gauche
@@ -69,17 +69,21 @@ class Asteroid{
   }
 }
 
-/* GAME */
+let mouse ={
+  x: 0, 
+  y: 0 ,
 // Récupération des coordonnées de la souris
-window.addEventListener(
-  'mousemove',
-   function(event){
-    mouse.x = event.clientX
-    mouse.y = event.clientY
-})
+   mouseMouve : function(){
+     window.addEventListener(
+      'mousemove',
+      function(event){
+        mouse.x = event.clientX
+        mouse.y = event.clientY
+    })
+  }
+}
+/* GAME */
 
-// Création du vaisseau spacial
-let spaceship=new Spaceship(0,0)
 
 // Création astéroïdes
 generateAsteroid()
@@ -91,6 +95,9 @@ let play= setInterval(
 )
 
 // Animation
+
+mouse.mouseMouve()
+
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
@@ -117,7 +124,7 @@ const loop = () =>
     spaceship.draw()
     //Affiche le score
     context.font = '20px Arial'
-    context.fillText(score, 700, 50)
+    context.fillText(game.score, 700, 50)
 }
 loop()
 
