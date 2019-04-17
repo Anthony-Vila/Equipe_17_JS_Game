@@ -111,7 +111,7 @@ const loop = () =>
     for (let i = 0; i < game.asteroids.length; i++){
       game.asteroids[i].aPosY += 5
       // Si une asteroide arrive sur le vaisseau, le score diminue
-      if (game.asteroids[i].aPosY-spaceship.sPosY<=30 && game.asteroids[i].aPosX-spaceship.sPosX<=30){
+      if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=10 && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=10){
         game.score--
       }
     }
