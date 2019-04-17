@@ -1,0 +1,74 @@
+@font-face {
+font-family: "Lazer84";
+src: url("styles/fonts/Lazer84.ttf");
+}
+
+body {
+font-family: 'Lazer84';
+font-weight:normal;
+font-style:normal;
+background-image: radial-gradient(circle, #6b35ab, #4d2f92, #322778, #1a1e5e, #041444);
+background-attachment: fixed;
+}
+
+.container{
+  width:960px;
+  margin: 0 auto;
+}
+.header{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.title__div{
+  width:100%;
+}
+.header__title{
+  text-align: center;
+  width:100%;
+}
+
+.header__jouer{
+  width:100%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.6rem;
+  margin-top: -1.1rem;
+}
+
+.logo{
+  margin-top: -10%;
+  height:auto;
+  width:95%;
+}
+
+.header__jouer a{
+  text-decoration: none;
+  color: #CEEA17;
+  border: thick solid #CEEA17;
+  padding: 5px;
+}
+
+.title__secondary{
+  color: #17ACEA ;
+  font-size: 1.4rem;
+  text-align: center;
+}
+.summary{
+  font-size: 0.9rem;
+  color:grey;
+  width: 400px;
+  margin: 0 auto;
+}
+#z-index{
+  z-index: 100;
+  position: fixed;
+}
+#img__container{
+  z-index: -1;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
