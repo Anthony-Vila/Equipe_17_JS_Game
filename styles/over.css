@@ -1,0 +1,28 @@
+
+body {
+font-family: 'Lazer84';
+font-weight:normal;
+font-style:normal;
+background-image: radial-gradient(circle, #6b35ab, #4d2f92, #322778, #1a1e5e, #041444);
+background-attachment: fixed;
+}
+h1 {
+  font-family: 'Lazer84';
+  text-align: center;
+  font-size: 200px;
+  color: #009FE3;
+  position: absolute;
+
+}
+
+h2 {
+  font-family: 'Lazer84';
+  text-align: center;
+  font-size: 110px;
+  color: #009FE3;
+  position: absolute;
+}
+div  {
+  align-content: center;
+  position: relative;
+}
