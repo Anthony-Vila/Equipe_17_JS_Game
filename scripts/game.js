@@ -2,7 +2,7 @@
 let canvas=document.querySelector('canvas'),
     context=canvas.getContext('2d')
 const aRadius=[20, 30, 40]
-let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY, indexaPosX, indexaPosY, id, destroyedAsteroids=[]
+let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY, indexaPosX, indexaPosY, id
 
 /* RESIZE CANVAS */
 function resizeCanvas(){
@@ -26,12 +26,13 @@ let game = {
   life:3,
   asteroids:[],
   shootings:[],
+  destroyedAsteroids:[],
   generateBackground:function(){
-    this.background.addColorStop(0, '#6b35ab')    // Couleur de départ
-    this.background.addColorStop(0.5, '#322778') // Couleur de milieu
-    this.background.addColorStop(1, '#041444') // Couleur de arrivée
+    this.background.addColorStop(0, '#6b35ab')    // start color
+    this.background.addColorStop(0.5, '#322778') // middle color
+    this.background.addColorStop(1, '#041444') // final color
     context.fillStyle = this.background
-    context.fillRect(0, 0, canvas.width, canvas.height) // remplissage du canvas
+    context.fillRect(0, 0, canvas.width, canvas.height)
   }
 }
 
@@ -43,9 +44,9 @@ let spaceship ={
   munition : 100,
   draw :function(){
     context.beginPath()
-    context.moveTo(this.sPosX+30,this.sPosY+30) //en bas à droite
-    context.lineTo(this.sPosX-30, this.sPosY+30) // en bas à gauche
-    context.lineTo(this.sPosX,this.sPosY-30) // en haut
+    context.moveTo(this.sPosX+30,this.sPosY+30) //bottom right
+    context.lineTo(this.sPosX-30, this.sPosY+30) // bottom left
+    context.lineTo(this.sPosX,this.sPosY-30) // top
     context.closePath()
     context.fillStyle = '#fff'
     context.strokeStyle = "#FFFFFF"
@@ -93,7 +94,7 @@ class Asteroid{
 let mouse ={
   x: 0,
   y: 0 ,
-// mouse coords
+// following the cursor
    mouseMouve : function(){
      window.addEventListener(
       'mousemove',
@@ -133,6 +134,7 @@ class Shooting{
   }
   static deleteShootings(){
     game.shootings.splice(0, game.shootings.length)
+    game.destroyedAsteroids.splice(0,game.destroyedAsteroids.length)
   }
 }
 
@@ -171,15 +173,14 @@ const loop = () =>
       game.asteroids[i].aPosY += 5
       // collision between spaceship and asteroid
       if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=game.asteroids[i].radius && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=game.asteroids[i].radius){
-        if (destroyedAsteroids.indexOf(game.asteroids[i].id)==-1){
-          destroyedAsteroids.push(game.asteroids[i].id)
+        if (game.destroyedAsteroids.indexOf(game.asteroids[i].id)==-1){
+          game.destroyedAsteroids.push(game.asteroids[i].id)
           game.life--
         }
       }
     }
     // when life=0, game over
     if (game.life<=0){
-      // window.confirm("Game over, replay ?")
       if (confirm("Game over, replay ?")){
         location.reload(false)
       }
@@ -213,7 +214,7 @@ const loop = () =>
 }
 loop()
 
-/*musique*/
+/*music*/
 const musique = new Audio ('../media/shooting-stars.mp3')
 document.addEventListener(
     'click',

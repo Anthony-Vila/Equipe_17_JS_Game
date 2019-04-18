@@ -79,8 +79,8 @@ background-attachment: fixed;
   max-width: 30rem;
 }
 .poster{
-  max-height: 30rem;
-  max-width: auto;
+  height: 30rem;
+  width: auto;
   margin-right: 7rem;
   border: thick solid #cf027f;
 }
