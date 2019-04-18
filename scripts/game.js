@@ -24,7 +24,7 @@ let game = {
   ),
   score:0,
   life:3,
-  asteroids:new Array(10),
+  asteroids:[],
   shootings:[],
   generateBackground:function(){
     this.background.addColorStop(0, '#6b35ab')    // Couleur de départ
@@ -60,7 +60,7 @@ let spaceship ={
   }
 }
 
-// Asteroids  indexaPosX, indexaPosY
+// Asteroids
 class Asteroid{
   constructor(aPosX, aPosY, radius){
     this.aPosX=aPosX
@@ -76,19 +76,22 @@ class Asteroid{
   static generateAsteroid (number) {
       for (let i = 0; i < number; i++){
         aPosX=Math.floor(Math.random()*canvas.width)
-        aPosY=Math.floor(Math.random()*canvas.height/5)
+        aPosY=-Math.floor(Math.random()*canvas.height/5)
         indexRadius=Math.floor(Math.random()*3)
         radius=aRadius[indexRadius]
-        game.asteroids[i] = new Asteroid(aPosX, aPosY, radius)
+        game.asteroids.push(new Asteroid(aPosX, aPosY, radius))
       }
+  }
+  static deleteAsteroids(){
+    game.asteroids.splice(0, game.asteroids.length)
   }
 }
 
-// Souris
+// Mouse
 let mouse ={
   x: 0,
   y: 0 ,
-// Récupération des coordonnées de la souris
+// mouse coords
    mouseMouve : function(){
      window.addEventListener(
       'mousemove',
@@ -113,12 +116,6 @@ class Shooting{
         this.shPosX=spaceship.sPosX
         this.shPosY=spaceship.sPosY
         game.shootings.push(new Shooting(this.shPosX, this.shPosY, 0))
-        for (let i = 0; i < game.asteroids.length; i++) {
-          if (Math.abs(this.shPosX-game.asteroids[i].aPosX)<=5){
-            game.score +=20
-            game.asteroids.splice(i,i)
-          }
-        }
       }
     )
   }
@@ -140,17 +137,17 @@ class Shooting{
 
 
 /* GAME */
-// Asteroids creation
-Asteroid.generateAsteroid(game.asteroids.length)
+Asteroid.generateAsteroid(10)
 Shooting.shoot()
 let play= setInterval(
     function(){
-    Asteroid.generateAsteroid(game.asteroids.length),
     Shooting.shoot(),
+    Asteroid.deleteAsteroids(),
     Shooting.deleteShootings(),
+    Asteroid.generateAsteroid(10),
     game.score +=10
   },
-  1500
+  2000
 )
 
 mouse.mouseMouve()
@@ -159,31 +156,41 @@ mouse.mouseMouve()
 const loop = () =>
 {
     window.requestAnimationFrame(loop)
-    // Met à jour les coordonnées de du vaisseau en appliquant un easing
+    // update spaceship coords
     spaceship.sPosX += (mouse.x - spaceship.sPosX)
     spaceship.sPosY += (mouse.y - spaceship.sPosY)
-    // Astéroïdes se déplacent verticalement
+    // asteroids fall
     for (let i = 0; i < game.asteroids.length; i++){
       game.asteroids[i].aPosY += 5
-      // Si une asteroide arrive sur le vaisseau, le score diminue
+      // collision between spaceship and asteroid
       if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=game.asteroids[i].radius && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=game.asteroids[i].radius){
         game.life=game.life-1/game.asteroids[i].radius
       }
     }
-    // Efface le canvas
+    // when shooting a asteroid, score increases and the asteroid disappears
+    for (let i = 0; i < game.shootings.length; i++) {
+      for (let j = 0; j < game.asteroids.length; j++) {
+        if ( (game.shootings[i].shPosX > (game.asteroids[j].aPosX-game.asteroids[j].radius)) && game.shootings[i].shPosX<game.asteroids[j].aPosX+game.asteroids[j].radius && game.shootings[i].shNxtPosY + game.shootings[i].shPosY > game.asteroids[j].aPosY-game.asteroids[j].radius && game.shootings[i].shNxtPosY + game.shootings[i].shPosY<game.asteroids[j].aPosY+game.asteroids[j].radius){
+          console.log("test")
+          game.score +=20
+          game.asteroids.splice(j, 1)
+        }
+      }
+    }
+    // clear the canvas
     game.generateBackground()
-    // Dessine le vaisseau
+    // draw the spaceship
     spaceship.draw()
-    // Dessine les asteroides
+    // draw the asteroids
     for (let i = 0; i < game.asteroids.length; i++) {
       game.asteroids[i].draw()
     }
-    // Dessine les tirs
+    // draw the shootings
     for (let i = 0; i < game.shootings.length; i++) {
       game.shootings[i].draw()
       game.shootings[i].shNxtPosY -=20
     }
-    //Affiche le score
+    //display score
     context.font = '20px Arial'
     context.fillText("Score: "+game.score, canvas.width*0.9, canvas.height*0.1)
     context.fillText("Vies: "+game.life, canvas.width*0.9 ,canvas.height*0.15)
