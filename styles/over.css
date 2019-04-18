@@ -4,25 +4,25 @@ font-family: 'Lazer84';
 font-weight:normal;
 font-style:normal;
 background-image: radial-gradient(circle, #6b35ab, #4d2f92, #322778, #1a1e5e, #041444);
-background-attachment: fixed;
-}
-h1 {
-  font-family: 'Lazer84';
-  text-align: center;
-  font-size: 200px;
-  color: #009FE3;
-  position: absolute;
 
 }
-
 h2 {
-  font-family: 'Lazer84';
   text-align: center;
-  font-size: 110px;
-  color: #009FE3;
   position: absolute;
+  margin-top: 20%;
+  margin-right: 20%;
 }
-div  {
-  align-content: center;
-  position: relative;
+h2.play{
+  font-size: 110px;
+  color: #ffd10b;
+}
+h2.menu{
+  font-size: 100px;
+  color: blue;
+  margin-top: 30%;
+}
+
+img{
+  width:100%;
+  position: absolute;
 }
