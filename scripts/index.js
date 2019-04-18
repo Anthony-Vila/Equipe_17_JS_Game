@@ -13,7 +13,7 @@ function getRandomPosition(element) {
 }
 
 //creates 300 images of stars
-for (let i=0; i<300;i++){
+for (let i=0; i<200;i++){
 window.onload=etoileBackground()
   function etoileBackground () {
     var randomSize = Math.floor(Math.random()*22)  //gives a random size to the star
@@ -34,7 +34,6 @@ window.onload=etoileBackground()
 }
 setInterval(function(){
   stars = document.querySelectorAll('.star')
-  console.log(stars)
    for(let i=0; i<stars.length;i++){
     specialStar = stars[Math.floor(Math.random()*stars.length)]   //selects a random star
     specialStar.classList.toggle("specialStar")   //toggle between blur and not blur
