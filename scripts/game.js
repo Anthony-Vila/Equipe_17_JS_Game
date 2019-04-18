@@ -143,14 +143,19 @@ Asteroid.generateAsteroid(10)
 Shooting.shoot()
 let play= setInterval(
     function(){
-    Shooting.shoot(),
     Asteroid.deleteAsteroids(),
-    Shooting.deleteShootings(),
     Asteroid.generateAsteroid(10),
     game.score +=10
   },
   2000
 )
+
+let ShootingRefresh = setInterval(
+    function(){
+    Shooting.shoot()
+    Shooting.deleteShootings()
+    },
+  800)
 
 mouse.mouseMouve()
 
