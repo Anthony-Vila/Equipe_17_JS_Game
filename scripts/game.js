@@ -179,7 +179,10 @@ const loop = () =>
     }
     // when life=0, game over
     if (game.life<=0){
-      window.alert("Game over")
+      // window.confirm("Game over, replay ?")
+      if (confirm("Game over, replay ?")){
+        location.reload(false)
+      }
     }
     // when shooting a asteroid, score increases and the asteroid disappears
     for (let i = 0; i < game.shootings.length; i++) {
@@ -209,6 +212,7 @@ const loop = () =>
     context.fillText("Vies: "+game.life, canvas.width*0.9 ,canvas.height*0.15)
 }
 loop()
+
 /*musique*/
 const musique = new Audio ('../media/shooting-stars.mp3')
 document.addEventListener(
