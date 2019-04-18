@@ -4,13 +4,23 @@ let canvas=document.querySelector('canvas'),
 const aRadius=[20, 30, 40]
 let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY
 
+/* RESIZE CANVAS */
+function resizeCanvas(){
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  width         = window.innerWidth;
+  height        = window.innerHeight;
+}
+window.addEventListener('resize',resizeCanvas);
+resizeCanvas();
+
 /*OBJETS*/
 // Game
 let game = {
   background:context.createRadialGradient(
-      400, 200, 100,
-      400, 300, 400,
-      400, 300, 600,
+      700, 400, 200,
+      700, 600, 800,
+      700, 600, 1200,
   ),
   score:0,
   life:3,
@@ -115,7 +125,7 @@ class Shooting{
     context.lineTo(this.shPosX, this.shPosY-30+this.shNxtPosY)
     context.closePath()
     context.shadowBlur=0
-    context.lineWidth = 3
+    context.lineWidth = 1
     context.strokeStyle = 'red'
     context.stroke()
   }
