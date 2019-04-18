@@ -2,7 +2,7 @@
 let canvas=document.querySelector('canvas'),
     context=canvas.getContext('2d')
 const aRadius=[20, 30, 40]
-let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY
+let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY, indexaPosX, indexaPosY
 
 /* RESIZE CANVAS */
 function resizeCanvas(){
@@ -24,7 +24,7 @@ let game = {
   ),
   score:0,
   life:3,
-  asteroids:new Array(5),
+  asteroids:new Array(10),
   shootings:[],
   generateBackground:function(){
     this.background.addColorStop(0, '#6b35ab')    // Couleur de départ
@@ -60,7 +60,7 @@ let spaceship ={
   }
 }
 
-// Asteroids
+// Asteroids  indexaPosX, indexaPosY
 class Asteroid{
   constructor(aPosX, aPosY, radius){
     this.aPosX=aPosX
@@ -75,8 +75,8 @@ class Asteroid{
   }
   static generateAsteroid (number) {
       for (let i = 0; i < number; i++){
-        aPosY=Math.floor(Math.random()*50)
-        aPosX=Math.floor(Math.random()*800)
+        aPosX=Math.floor(Math.random()*canvas.width)
+        aPosY=Math.floor(Math.random()*canvas.height/5)
         indexRadius=Math.floor(Math.random()*3)
         radius=aRadius[indexRadius]
         game.asteroids[i] = new Asteroid(aPosX, aPosY, radius)
@@ -113,8 +113,11 @@ class Shooting{
         this.shPosX=spaceship.sPosX
         this.shPosY=spaceship.sPosY
         game.shootings.push(new Shooting(this.shPosX, this.shPosY, 0))
-        if (Math.abs(this.shPosX-spaceship.sPosX)<=5){
-          game.score +=20
+        for (let i = 0; i < game.asteroids.length; i++) {
+          if (Math.abs(this.shPosX-game.asteroids[i].aPosX)<=5){
+            game.score +=20
+            game.asteroids.splice(i,i)
+          }
         }
       }
     )
@@ -182,7 +185,7 @@ const loop = () =>
     }
     //Affiche le score
     context.font = '20px Arial'
-    context.fillText("Score: "+game.score, 700, 50)
-    context.fillText("Vies: "+game.life, 700 ,70)
+    context.fillText("Score: "+game.score, canvas.width*0.9, canvas.height*0.1)
+    context.fillText("Vies: "+game.life, canvas.width*0.9 ,canvas.height*0.15)
 }
 loop()
