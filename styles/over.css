@@ -21,6 +21,9 @@ h2.menu{
   color: blue;
   margin-top: 30%;
 }
+a{
+  text-decoration: none;
+}
 
 img{
   width:100%;
