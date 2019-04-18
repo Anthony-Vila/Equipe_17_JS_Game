@@ -1,8 +1,8 @@
 @font-face {
-font-family: "Lazer84";
+font-family: "Lazer84", "SF Atarian System Extended";
 src: url("fonts/Lazer84.ttf");
+src: url("fonts/SF Atarian System Extended.ttf");
 }
-
 body {
 font-family: 'Lazer84';
 font-weight:normal;
@@ -11,8 +11,12 @@ background-image: radial-gradient(circle, #6b35ab, #4d2f92, #322778, #1a1e5e, #0
 background-attachment: fixed;
 }
 
+/*
+            HEADER
+*/
+
 .container{
-  width:960px;
+  max-width:60rem;
   margin: 0 auto;
 }
 .header{
@@ -27,49 +31,69 @@ background-attachment: fixed;
   text-align: center;
   width:100%;
 }
-
 .header__play{
   width:100%;
   display: flex;
   justify-content: flex-end;
-  font-size: 2.2rem;
+  font-size: 2.5rem;
   margin-top: -0.9rem;
 }
-
 .logo{
   margin-top: -10%;
   height:auto;
   width:120%;
   margin-right: 25%;
 }
-
 .header__play a{
   text-decoration: none;
   color: #ffd10b;
   border: thick solid #ffd10b;
-  padding: 5px 15px;
-  margin-right: 10px;
+  padding: 0.5rem 1.5rem;
+  margin-right: 1rem;
 }
-
 .header__play a:hover{
-  font-size: 3.0rem;
-  padding: -6px 0;
-  margin-right: 5px;
   color: #17ACEA;
   border: thick solid #17ACEA;
 }
 
+/*
+        body
+*/
+
 .title__secondary{
   color: #17ACEA ;
-  font-size: 1.4rem;
+  font-size: 2.0rem;
   text-align: center;
 }
 .summary{
-  font-size: 0.9rem;
-  color:lightgreen;
-  width: 400px;
-  margin: 0 auto;
+  font-family: "SF Atarian System Extended";
+  font-size: 1.1rem;
+  color:beige;
+  max-width: 30rem;
+  margin-top:2rem;
+  flex-direction: row;
 }
+.poster{
+  max-height: 27.5rem;
+  max-width: auto;
+  margin: 2rem;
+  border: thick solid #cf027f;
+}
+.container__img__summary{
+  display: flex;
+  justify-content: center;
+}
+
+.game__summary{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+/*
+        background
+*/
+
 #z-index{
   z-index: 100;
   position: fixed;
@@ -82,8 +106,20 @@ background-attachment: fixed;
   left: 0;
   bottom: 0;
 }
-
 .star.specialStar{
   filter:blur(0) !important;
-  -webkit-transform: translateZ(0);
+}
+.star{
+  transform-origin: 50% 50%;;
+}
+@-webkit-keyframes rotating {
+    from{
+        -webkit-transform: rotate(0deg);
+    }
+    to{
+        -webkit-transform: rotate(360deg);
+    }
+}
+.rotating {
+    -webkit-animation: rotating 7s linear infinite;
 }
