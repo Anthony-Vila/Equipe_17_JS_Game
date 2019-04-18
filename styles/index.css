@@ -68,6 +68,8 @@ background-attachment: fixed;
   font-size: 2.0rem;
   text-align: center;
   margin: 4rem;
+  animation-duration: 2s;
+  animation-name: slidein;
 }
 .summary{
   font-family: "SF Atarian System Extended";
@@ -84,11 +86,22 @@ background-attachment: fixed;
 .container__img__summary{
   display: flex;
   justify-content: center;
+  animation-duration: 2s;
+  animation-name: slidein;
 }
 
 .game__summary{
   display: flex;
   flex-wrap: wrap;
+}
+@keyframes slidein {
+  from{
+    opacity: 0;
+  }
+
+    to {
+    opacity: 1;
+  }
 }
 
 /*
