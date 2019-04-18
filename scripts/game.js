@@ -2,7 +2,7 @@
 let canvas=document.querySelector('canvas'),
     context=canvas.getContext('2d')
 const aRadius=[20, 30, 40]
-let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY, indexaPosX, indexaPosY
+let aPosX, aPosY, radius, indexRadius, sPosX, sPosY, shPosX, shPosY, shNxtPosY, indexaPosX, indexaPosY, id, destroyedAsteroids=[]
 
 /* RESIZE CANVAS */
 function resizeCanvas(){
@@ -62,10 +62,11 @@ let spaceship ={
 
 // Asteroids
 class Asteroid{
-  constructor(aPosX, aPosY, radius){
+  constructor(aPosX, aPosY, radius, id){
     this.aPosX=aPosX
     this.aPosY=aPosY
     this.radius=radius
+    this.id=id
   }
   draw(){
     context.beginPath()
@@ -79,7 +80,8 @@ class Asteroid{
         aPosY=-Math.floor(Math.random()*canvas.height/5)
         indexRadius=Math.floor(Math.random()*3)
         radius=aRadius[indexRadius]
-        game.asteroids.push(new Asteroid(aPosX, aPosY, radius))
+        id=i
+        game.asteroids.push(new Asteroid(aPosX, aPosY, radius, id))
       }
   }
   static deleteAsteroids(){
@@ -164,14 +166,20 @@ const loop = () =>
       game.asteroids[i].aPosY += 5
       // collision between spaceship and asteroid
       if (Math.abs(game.asteroids[i].aPosY-spaceship.sPosY)<=game.asteroids[i].radius && Math.abs(game.asteroids[i].aPosX-spaceship.sPosX)<=game.asteroids[i].radius){
-        game.life=game.life-1/game.asteroids[i].radius
+        if (destroyedAsteroids.indexOf(game.asteroids[i].id)==-1){
+          destroyedAsteroids.push(game.asteroids[i].id)
+          game.life--
+        }
       }
+    }
+    // when life=0, game over
+    if (game.life<=0){
+      window.alert("Game over")
     }
     // when shooting a asteroid, score increases and the asteroid disappears
     for (let i = 0; i < game.shootings.length; i++) {
       for (let j = 0; j < game.asteroids.length; j++) {
         if ( (game.shootings[i].shPosX > (game.asteroids[j].aPosX-game.asteroids[j].radius)) && game.shootings[i].shPosX<game.asteroids[j].aPosX+game.asteroids[j].radius && game.shootings[i].shNxtPosY + game.shootings[i].shPosY > game.asteroids[j].aPosY-game.asteroids[j].radius && game.shootings[i].shNxtPosY + game.shootings[i].shPosY<game.asteroids[j].aPosY+game.asteroids[j].radius){
-          console.log("test")
           game.score +=20
           game.asteroids.splice(j, 1)
         }
