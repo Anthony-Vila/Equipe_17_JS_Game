@@ -209,3 +209,11 @@ const loop = () =>
     context.fillText("Vies: "+game.life, canvas.width*0.9 ,canvas.height*0.15)
 }
 loop()
+/*musique*/
+const musique = new Audio ('../media/shooting-stars.mp3')
+document.addEventListener(
+    'click',
+    ()=>{
+        musique.play();
+}
+)
