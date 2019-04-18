@@ -57,6 +57,7 @@ background-attachment: fixed;
 .header__play a:hover{
   color: #17ACEA;
   border: thick solid #17ACEA;
+  transition: all 0.1s;
 }
 
 /*
@@ -126,10 +127,12 @@ ul.footer_element li a{
   text-decoration: none;
   font-family: "SF Atarian System Extended";
   color:#ffd10b;
-}
-.footer__container ul.footer_element li a:hover{
-  color::#ffd10b;
   border: thin solid #ffd10b;
+}
+ul.footer_element li a:hover{
+  color:#17ACEA;
+  border: thin solid #17ACEA;
+  transition: all 0.1s;
 }
 
 /*
